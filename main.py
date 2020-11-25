@@ -12,7 +12,7 @@ class AlgoVisual:
         self.screen = pygame.display.set_mode(self.DISPLAY)
         pygame.display.set_caption("AlgoVisual")
         # self.grid = Grid(self.screen, 600, 100, 500, 500, 20)
-        self.container = BarsContainer(self.screen, 400, 100, 700, 500, 20)
+        self.container = BarsContainer(self.screen, 400, 100, 700, 500, 5)
         
 
     def run(self):

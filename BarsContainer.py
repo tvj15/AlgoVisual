@@ -14,7 +14,7 @@ class BarsContainer:
         self.WIDTH = width
         self.HEIGHT = height
         self.BW = bw
-        self.space = self.BW//5
+        self.space = (self.BW//5) + 1
         self.numberBars = (self.WIDTH // (self.BW + self.space))-1
         self.THICKNESS = 4
         self.red = (255,0,0)
@@ -109,8 +109,7 @@ class BarsContainer:
         self.jdx = 0
         self.comparing = False
         self.swapping = False
-        self.wait = self.BW
-        self.normal = False
+        self.wait = 0
 
     def bubbleSort(self):
         if 0 <= self.idx < self.numberBars - 1:
@@ -156,23 +155,37 @@ class BarsContainer:
         self.jdx = 0
         self.key = 0
         self.key = self.bars[self.idx].HEIGHT
+        self.wait = self.BW
+        self.inserting = False
+
 
     
     def insertionSort(self):
         if 1 <= self.idx < self.numberBars:
+            if not self.inserting:
+                self.bars[self.idx].color = self.red
+                self.bars[self.jdx].color = self.blue
+                self.inserting = True
+                pygame.time.wait(self.wait)
+                return False
             if self.jdx >= 0 and self.key < self.bars[self.jdx].HEIGHT:
                 self.bars[self.jdx].x, self.bars[self.jdx+1].x = self.bars[self.jdx+1].x, self.bars[self.jdx].x
                 self.bars[self.jdx], self.bars[self.jdx+1] = self.bars[self.jdx+1], self.bars[self.jdx]
                 self.jdx -= 1
+                pygame.time.wait(self.wait)
                 return False
-            self.bars[self.jdx+1].HEIGHT = self.key
+            self.bars[self.jdx+1].color = self.blue
+            self.inserting = False
             self.idx += 1
             if not self.idx == self.numberBars:
                 self.key = self.bars[self.idx].HEIGHT
                 self.jdx = self.idx - 1
+            pygame.time.wait(self.wait)
             return False
         else:
             print("insertion sort done")
+            for bar in self.bars:
+                bar.color = self.yellow
             return True
 
         
