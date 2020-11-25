@@ -1,2 +1,2 @@
 # AlgoVisual
-Visualizing Algorithm
+Visualizing Algorithms
