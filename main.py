@@ -48,7 +48,7 @@ class AlgoVisual:
         return button
 
     def pathFindingButtonOnClick(self):
-        self.grid = Grid(self, 600, 75, 500, 500, 20)
+        self.grid = Grid(self, 600, 75, 500, 500, 50)
         self.pathfinder = True
 
     def sortingButtonOnClick(self):
