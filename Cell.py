@@ -18,12 +18,14 @@ class Cell:
         self.visited = False
         self.start = False
         self.end = False
-        self.dist = math.inf
         self.dijkstraVisited = False
         self.path = False
+        self.open = False
+        self.close = False
 
     def __lt__(self, other):
         return self.dist < other.dist
+        
 
     #Drawing Cells
     def draw(self):
@@ -34,7 +36,11 @@ class Cell:
         elif self.path:
             pygame.draw.rect(self.surface,(255,255,0),(self.x*self.CW,self.y*self.CW,self.CW, self.CW))
         elif self.dijkstraVisited:
-            pygame.draw.rect(self.surface,(100,(255-self.dist)%255,200),(self.x*self.CW,self.y*self.CW,self.CW, self.CW))
+            pygame.draw.rect(self.surface,(100,(255-self.dist-2)%255,200),(self.x*self.CW,self.y*self.CW,self.CW, self.CW))
+        elif self.close:
+            pygame.draw.rect(self.surface,(255,165,0),(self.x*self.CW,self.y*self.CW,self.CW, self.CW))
+        elif self.open:
+            pygame.draw.rect(self.surface,(0,255,0),(self.x*self.CW,self.y*self.CW,self.CW, self.CW))
         elif self.visited:
             pygame.draw.rect(self.surface,(200,200,200),(self.x*self.CW,self.y*self.CW,self.CW, self.CW))
 
@@ -146,7 +152,7 @@ class Cell:
                     
             if event.type == pygame.MOUSEMOTION:
                 if self.x * self.CW < event.pos[0] < (self.x+1) * self.CW and self.y * self.CW < event.pos[1] < (self.y + 1) * self.CW:
-                    if Cell.drag and not gridObj.findPath and not gridObj.drawPath and not gridObj.drawMaze:
+                    if Cell.drag and gridObj.isClickAllowed():
                         if not self == Cell.currDrag:
                             if Cell.currDraging == "start":
                                 if not self.end:
@@ -168,7 +174,3 @@ class Cell:
                     Cell.drag = False
                     Cell.currDrag = None
                     currDraging = None
-
-    
-
-                
