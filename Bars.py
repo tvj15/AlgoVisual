@@ -11,5 +11,4 @@ class Bars:
         self.color = color
 
     def draw(self):
-        pygame.draw.rect(
-            self.surface, self.color, (self.x, self.y - self.HEIGHT, self.BW, self.HEIGHT))
+        pygame.draw.rect(self.surface, self.color, (self.x, self.y - self.HEIGHT, self.BW, self.HEIGHT))
