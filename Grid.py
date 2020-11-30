@@ -16,19 +16,18 @@ class Grid:
         self.COLS = self.WIDTH//self.CW
         self.THICKNESS = 4
         self.buttons = self.generateButtons()
-        # self.generateSlider()        
+        self.generateSlider()        
         self.grid = self.create_cells()
         self.drawMaze = False
         self.dijkstraFindPath = False
         self.aStarFindPath = False
         self.drawPath = False
         self.isMaze = False
-        self.start.start = True
-        self.end.end = True
+        
         
 
     def generateSlider(self):
-        self.slider = Slider(self.mainObj.surface, self.x + 5 , self.y+self.HEIGHT+20, 200,10, min=5, max=50, step=5,initial=self.ROWS, colour=(180, 110, 205))
+        self.slider = Slider(self.mainObj.surface, self.x + 5 , self.y+self.HEIGHT+20, 200,10, min=10, max=100, step=5,initial=self.CW, colour=(180, 110, 205))
 
      # Draw the grid on the screen
     def draw(self):
@@ -64,7 +63,7 @@ class Grid:
             if self.draw_path():
                 self.drawPath = False
 
-        # self.slider.draw()
+        self.slider.draw()
         
     
     def generateButtons(self):
@@ -116,6 +115,8 @@ class Grid:
     def create_cells(self):
         self.ROWS = self.HEIGHT//self.CW
         self.COLS = self.WIDTH//self.CW
+        self.start = None
+        self.end = None
         grid = []
         for j in range(self.ROWS):
             t = []
@@ -125,6 +126,8 @@ class Grid:
             grid.append(t)
         self.start = grid[0][0]
         self.end = grid[-1][-1]
+        self.start.start = True
+        self.end.end = True
         self.isMaze = False
         return grid
 
@@ -142,8 +145,6 @@ class Grid:
     def clearMazeButtonOnClick(self):
         if self.isClickAllowed():
             self.grid = self.create_cells()
-            self.start.start = True
-            self.end.end = True
     
     def findDijkstraPathOnClick(self):
         if self.isClickAllowed():
@@ -300,13 +301,12 @@ class Grid:
 
     #Grid event Handling
     def listen_events(self, events):
-        # if self.isClickAllowed():
-        #     self.slider.listen(events)
-        #     temp = self.slider.getValue()
-        #     if temp != self.ROWS:
-        #         self.ROWS = temp
-        #         self.CW = self.ROWS * self.HEIGHT
-        #         self.grid = self.create_cells()
+        if self.isClickAllowed():
+            self.slider.listen(events)
+            temp = self.slider.getValue()
+            if temp != self.CW and temp in [10,20,25,50,100]:
+                self.CW = temp
+                self.grid = self.create_cells()
         for button in self.buttons:
             button.listen(events)
         for i in range(self.ROWS):
